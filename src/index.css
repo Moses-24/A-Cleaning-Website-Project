@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
+  
+  --color-ese-green: #004d40;
+  --color-ese-teal: #26a69a;
+  --color-ese-blue: #e3f2fd;
+  --color-ese-dark: #1a1a1a;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-ese-dark bg-white antialiased;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.glass {
+  @apply bg-white/80 backdrop-blur-md border border-white/20;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-ese-blue/30;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-ese-green/20 rounded-full hover:bg-ese-green/40 transition-colors;
+}
