@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { Target, Eye, Heart, ShieldCheck, Sparkles } from 'lucide-react';
 import founderImg from '../images/founderImg.png';
-import kitchenclean from '../images/kitchenclean.png';
+import kitchenclean from '../images/eseaboutimg.jpg';
+
+
 
 const fadeInUp = {
   initial: { opacity: 0, y: 50 },
@@ -14,8 +16,8 @@ export default function About() {
   return (
     <div className="pt-24 min-h-screen">
       {/* Header */}
-      <section className="bg-ese-blue/30 py-24 text-center">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="bg-ese-blue/100 py-24 text-center">
+        <div className="max-w-4xl mx-auto px-5">
           <motion.div {...fadeInUp}>
             <h1 className="text-5xl md:text-6xl font-display font-bold text-ese-green mb-6">Our Story</h1>
             <p className="text-xl text-gray-600 font-light leading-relaxed">
@@ -46,7 +48,7 @@ export default function About() {
           <motion.div {...fadeInUp} className="relative">
             <div className="aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl skew-y-3">
               <img 
-                src="src/images/kitchenclean.PNG" 
+                src="src/images/eseaboutimg.jpg" 
                 alt="Cleaning Team" 
                 className="w-full h-full object-cover -skew-y-3 scale-110"
                 referrerPolicy="no-referrer"

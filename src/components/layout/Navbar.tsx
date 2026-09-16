@@ -10,9 +10,7 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -21,110 +19,115 @@ export default function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Booking', path: '/booking' },
     { name: 'Contact', path: '/contact' },
   ];
 
+  // Link styling depends on whether we're in "bar" mode or "pill" mode
+  const linkClass = (path: string) => {
+    const active = location.pathname === path;
+    if (scrolled) {
+      return `px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+        active
+          ? 'bg-gradient-to-r from-ese-teal to-ese-green text-white shadow-lg'
+          : 'text-black hover:text-ese-gray hover:bg-white/10'
+      }`;
+    }
+    return `font-medium transition-colors duration-300 hover:text-ese-teal ${
+      active ? 'text-ese-teal' : 'text-white'
+    }`;
+  };
+
   return (
-    <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 relative flex justify-between items-center md:grid md:grid-cols-3">
-        {/* Left Side: Empty or Logo on Mobile */}
-        <div className="flex items-center md:justify-start">
-          <Link to="/" className="flex items-center gap-2 md:hidden">
-            <img 
-              src="src/images/ese_logo.jpg" 
-              alt="Ese Cleaning Logo" 
-              className="h-12 w-auto object-contain"
-              onError={(e) => {
-                // Fallback if logo not found
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement?.insertAdjacentHTML('afterbegin', '<div class="bg-ese-green text-white font-display font-bold text-lg p-1 px-3 rounded italic">ESE</div>');
-              }}
-            />
-          </Link>
-          
-          {/* Desktop Left Nav Links */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link to="/" className={`font-medium transition-colors hover:text-ese-teal ${location.pathname === '/' ? 'text-ese-teal' : (scrolled ? 'text-ese-dark' : 'text-white')}`}>Home</Link>
-            <Link to="/about" className={`font-medium transition-colors hover:text-ese-teal ${location.pathname === '/about' ? 'text-ese-teal' : (scrolled ? 'text-ese-dark' : 'text-white')}`}>About</Link>
-          </div>
-        </div>
+    <nav className="fixed top-0 left-0 w-full z-50 px-4">
+      {/* Morphing shell: full-width bar at rest → floating pill on scroll */}
+      <div
+  className={`mx-auto flex items-center transition-all duration-500 ease-out ${
+    scrolled
+      ? 'mt-3 max-w-md md:max-w-2xl px-3 py-2 rounded-full bg-gray-100 backdrop-blur-md shadow-2xl ring-1 ring-white/10 justify-between gap-4'
+      : 'mt-0 max-w-7xl px-2 py-4 rounded-none bg-transparent shadow-none ring-0 ring-transparent justify-between'
+  }`}
+>
+        {/* Logo — always left */}
+        <Link to="/" className="flex items-center shrink-0">
+          <img
+            src={eseLogo}
+            alt="Ese Cleaning Services Logo"
+            className={`w-auto object-contain transition-all duration-500 ${
+              scrolled ? 'h-10 rounded-full' : 'h-14 md:h-16'
+            }`}
+          />
+        </Link>
 
-        {/* Center: Logo on Desktop */}
-        <div className="hidden md:flex justify-center items-center">
-          <Link to="/" className="flex flex-col items-center">
-            <img 
-              src={eseLogo}
-              alt="Ese Cleaning Services Logo" 
-              className={`transition-all duration-300 ${scrolled ? 'h-10' : 'h-12'} w-auto object-contain`}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement?.insertAdjacentHTML('afterbegin', '<div class="bg-ese-green text-white font-display font-bold text-xl p-1 px-3 rounded italic tracking-tight">ESE</div>');
-              }}
-            />
-          </Link>
-        </div>
+        {/* Nav links — always right */}
+        <div className={`hidden md:flex items-center ${scrolled ? 'gap-1' : 'gap-8'} transition-all duration-500`}>
+          {navLinks.map((link) => (
+            <Link key={link.path} to={link.path} className={linkClass(link.path)}>
+              {link.name}
+            </Link>
+          ))}
 
-        {/* Right Side: Desktop Links & Booking */}
-        <div className="flex items-center justify-end gap-6">
-          <div className="hidden md:flex items-center gap-6">
-            <Link to="/services" className={`font-medium transition-colors hover:text-ese-teal ${location.pathname === '/services' ? 'text-ese-teal' : (scrolled ? 'text-ese-dark' : 'text-white')}`}>Services</Link>
-            <Link to="/contact" className={`font-medium transition-colors hover:text-ese-teal ${location.pathname === '/contact' ? 'text-ese-teal' : (scrolled ? 'text-ese-dark' : 'text-white')}`}>Contact</Link>
-          </div>
-          
-          <Link 
+          <Link
             to="/booking"
-            className="hidden sm:block bg-ese-green text-white px-6 py-2 rounded-full font-semibold hover:bg-ese-teal transition-all shadow-lg hover:shadow-ese-teal/20"
+            className={`font-semibold transition-all duration-300 ${
+              scrolled
+                ? 'ml-2 bg-ese-green text-white px-5 py-2 rounded-full text-sm hover:bg-ese-teal'
+                : 'bg-ese-green text-white px-6 py-2 rounded-full hover:bg-ese-teal shadow-lg hover:shadow-ese-teal/20'
+            }`}
           >
             Book Now
           </Link>
-
-          {/* Mobile Toggle */}
-          <button 
-            className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-ese-dark' : 'text-white'}`}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
         </div>
+
+        {/* Mobile toggle — always right */}
+        <button
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+          className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
+            scrolled ? 'text-ese-green' : 'text-ese-green'
+          }`}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — floating dark card that matches the pill */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden mx-auto mt-3 max-w-md rounded-3xl bg-ese-green backdrop-blur-md ring-1 ring-white/10 shadow-2xl overflow-hidden"
           >
-            <div className="px-6 py-8 flex flex-col gap-6">
+            <div className="px-6 py-6 flex flex-col gap-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`text-xl font-medium ${
-                    location.pathname === link.path ? 'text-ese-teal' : 'text-ese-dark'
+                  className={`px-4 py-3 rounded-full text-lg font-semibold transition-all ${
+                    location.pathname === link.path
+                      ? 'bg-gradient-to-r from-ese-teal to-ese-green text-white'
+                      : 'text-white hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {link.name}
                 </Link>
               ))}
-              <Link 
+
+              <Link
                 to="/booking"
                 onClick={() => setIsOpen(false)}
-                className="bg-ese-green text-white px-6 py-3 rounded-xl font-semibold text-center shadow-lg"
+                className="mt-2 bg-ese-green text-white px-6 py-3 rounded-full font-semibold text-center shadow-lg"
               >
                 Get a Free Quote
               </Link>
-              <a 
+
+              <a
                 href="tel:+2349078244276"
-                className="flex items-center justify-center gap-2 text-ese-green font-semibold"
+                className="flex items-center justify-center gap-2 text-ese-teal font-semibold pt-2"
               >
                 <Phone size={20} />
                 0907 824 4276

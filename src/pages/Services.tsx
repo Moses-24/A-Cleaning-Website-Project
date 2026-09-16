@@ -7,7 +7,7 @@ import deepImg from '../images/beddeep-img.PNG';
 import constructionImg from '../images/p-construction.PNG';
 import moveImg from '../images/inoutimg.PNG';
 import airbnbImg from '../images/Airbnb.jpg';
-import upholsteryImg from '../images/uphostryimg.jpg';
+import uphostryImg from '../images/uphostryimg.jpg';
 import fumigationImg from '../images/fumigatingimg.PNG';
 
 const fadeInUp = {
@@ -72,7 +72,7 @@ const services = [
     title: 'Upholstery & Sofa Cleaning',
     desc: 'Breathe new life into your furniture. We use specialized equipment to steam and sanitize your sofas, mattresses, and armchairs.',
     benefits: ['Stain removal', 'Odor neutralization', 'Fabric conditioning', 'Deep steam'],
-    img: upholsteryImg
+    img: uphostryImg
   },
   {
     id: 'fumigation',
