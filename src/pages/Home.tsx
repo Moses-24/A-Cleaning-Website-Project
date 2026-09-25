@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Home as HomeIcon, Building2, Bed, CheckCircle2, Star, ArrowRight, ChevronLeft, ChevronRight} from 'lucide-react';
-import img1 from '../images/ese-bulb_clean-img.png';
+import img1 from '../images/ese-bulb-clean-img.png';
 import img2 from '../images/ese-parlor-img.png';
 import img3 from '../images/foodroom.png';
 import img4 from '../images/ese5.png';
