@@ -1,14 +1,14 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Sparkles, Building2, Home, Construction, Truck, Bed, Sofa, Waves, Utensils, Zap, Bug } from 'lucide-react';
-import kitchenclean from '../images/kitchenclean.PNG';
-import officeImg from '../images/office-img.PNG';
-import deepImg from '../images/beddeep-img.PNG';
-import constructionImg from '../images/p-construction.PNG';
-import moveImg from '../images/inoutimg.PNG';
+import kitchenclean from '../images/kitchenclean.png';
+import officeImg from '../images/office-img.png';
+import deepImg from '../images/beddeep-img.png';
+import constructionImg from '../images/p-construction.png';
+import moveImg from '../images/inoutimg.png';
 import airbnbImg from '../images/Airbnb.jpg';
 import uphostryImg from '../images/uphostryimg.jpg';
-import fumigationImg from '../images/fumigatingimg.PNG';
+import fumigationImg from '../images/fumigatingimg.png';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 50 },
