@@ -8,7 +8,7 @@ import img3 from '../images/foodroom.png';
 import img4 from '../images/ese5.png';
 import hero2 from '../images/hero2a.jpg';
 import hero4 from '../images/hero4.jpg';
-import hero2mobile from '../images/hero2mobile.jpg';
+import hero2mobile from '../images/hero2Mobile.jpg';
 import hero4Mobile from '../images/hero4Mobile2.jpg';
 import residentialImg from '../images/residentHome.jpg';
 import officeImg from '../images/office-img.png';
