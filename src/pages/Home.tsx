@@ -1,19 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Home as HomeIcon, Building2, Bed, CheckCircle2, Star, ArrowRight, ChevronLeft, ChevronRight} from 'lucide-react';
-import img1 from '../images/ese-bulb_clean-img.PNG';
-import img2 from '../images/ese-parlor-img.PNG';
-import img3 from '../images/foodroom.PNG';
-import img4 from '../images/ese5.PNG';
-import heroBg from '../images/hero.jpg';
+import img1 from '../images/ese-bulb_clean-img.png';
+import img2 from '../images/ese-parlor-img.png';
+import img3 from '../images/foodroom.png';
+import img4 from '../images/ese5.png';
+import hero2 from '../images/hero2a.jpg';
+import hero4 from '../images/hero4.jpg';
+import hero2mobile from '../images/hero2mobile.jpg';
+import hero4Mobile from '../images/hero4Mobile2.jpg';
 import residentialImg from '../images/residentHome.jpg';
-import officeImg from '../images/office-img.PNG';
-import desktopImg from '../images/ese-desktop.PNG';
+import officeImg from '../images/office-img.png';
+import desktopImg from '../images/ese-desktop2.png';
 import uphostryImg from '../images/uphostryimg.jpg';
 import kitchenImg from '../images/esekitchenimg.jpg';
-import eseclean from '../images/esecleanImg.jpg'
+import eseclean from '../images/esecleanImg.jpg';
 
+const heroSlides = [
+  { desktop: hero2, mobile: hero2mobile },
+  { desktop: hero4, mobile: hero4Mobile },
+];
 
 const fadeInUp = {
   initial: { opacity: 0, y: 50 },
@@ -78,8 +85,6 @@ function ScallopBottom({ nextColor }: { nextColor: string }) {
   );
 }
 
-
-
 function Bubbles() {
   return (
     <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
@@ -87,13 +92,13 @@ function Bubbles() {
         <motion.div
           key={i}
           className="absolute rounded-full bg-blue-300/70 border-1 border-blue-400/80"
-          style={(()  => {
+          style={(() => {
             const size = Math.random() * 20 + 10;
             return {
-            width: size,
-            height: size,
-            left: `${Math.random() * 100}%`,
-            top: '-50px',
+              width: size,
+              height: size,
+              left: `${Math.random() * 100}%`,
+              top: '-50px',
             };
           })()}
           animate={{
@@ -111,7 +116,6 @@ function Bubbles() {
     </div>
   );
 }
-
 
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0);
@@ -182,65 +186,112 @@ function FAQItem({ faq, isOpen, onClick }: { faq: any, isOpen: boolean, onClick:
   );
 }
 
+const testimonials = [
+  { name: 'Olawale Adenuga', role: 'Airbnb Host, Lekki', text: 'Ese Cleaning has been a lifesaver for my shortlets. They are punctual and their attention to detail is unmatched. Highly recommended!' },
+  { name: 'Chidinma Okechukwu', role: 'Busy Professional', text: 'I love coming home to a spotless house every Friday. Their staff are friendly and very professional. God bless your business!' },
+  { name: 'Tunde Bakare', role: 'Tech Founder, VI', text: 'Best office cleaning service in Lagos. They transformed our space and keep it consistently clean every week.' },
+  { name: 'Amaka Okonkwo', role: 'Homeowner, Ajah', text: 'Very thorough and professional. They cleaned every corner of my home and left it smelling fresh. Will definitely book again!' },
+  { name: 'Emeka Nwosu', role: 'Property Manager, Ikoyi', text: 'I manage 6 apartments and Ese Cleaning handles all of them. Reliable, affordable and always on time. Best decision ever!' }
+];
+
+
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(0);
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const { greeting, location } = useGreeting();
   const { count: count600, ref: ref600 } = useCountUp(600, 3000);
   const { count: count5, ref: ref5 } = useCountUp(5, 5000);
+  const testimonialRef = useRef<HTMLDivElement>(null);
+
+  const scrollTestimonials = (direction: 'left' | 'right') => {
+    if (testimonialRef.current) {
+      const scrollAmount = direction === 'left' ? -350 : 350;
+      testimonialRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  // Background image slider cycle every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="flex flex-col relative">
       <Bubbles />
 
       {/* Hero Section */}
-      <section className="relative h-[80vh] md:h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroBg}
-            alt="Ese Cleaning Services - Professional Cleaning in Lekki"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-ese-green/50" />
-        </div>
-        <div className="relative z-20 max-w-7xl mx-auto px-6 text-center text-white">
+      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden">
+        {/* Animated Background Images */}
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentHeroIndex}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: 'easeInOut' }}
+            className="absolute inset-0 z-0 w-full h-full"
+          >
+            {/* Mobile View */}
+            <img
+              src={heroSlides[currentHeroIndex].mobile}
+              alt="Ese Cleaning Services - Professional Cleaning in Lekki"
+              className="w-full h-full object-cover object-center block md:hidden"
+            />
+            {/* Desktop View */}
+            <img
+              src={heroSlides[currentHeroIndex].desktop}
+              alt="Ese Cleaning Services - Professional Cleaning in Lekki"
+              className="w-full h-full object-cover object-[85%_center] md:object-right hidden md:block"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-ese-green/93 via-ese-green/57 to-transparent" />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Top Spacer for Center Alignment */}
+        <div className="pt-20"></div>
+
+        {/* Main Content Area */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 w-full my-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
+            className="max-w-xl text-left"
           >
             <motion.h1
               {...shakeAnimation}
-              className="heading-1 mb-4 leading-[1.1] tracking-tighter text-gray-100"
+              className="heading-1 mb-4 leading-[1.1] tracking-tighter text-white"
             >
-            Your <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em] '>Space, </span> Spotless.  <br/> Your Health,    
-             <span className='text-ese-teal bg-white px-4 rounded-xl  inline-block text-[0.9em]'> Protected. </span>
+              Your <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'>Space,</span> Spotless. <br/> 
+              Your Health, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'>Protected.</span>
             </motion.h1>
-            <p className="text-xl md:text-1xl mb-5 max-w-1x1 mx-auto text-gray-200 font-light leading-relaxed tracking-tight lg:tracking-normal">
+            
+            <p className="text-xl md:text-1xl mb-5 text-gray-100 font-light leading-relaxed tracking-tight lg:tracking-normal">
               Experience the gold standard of hygiene for your homes, offices, and short-lets today!
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/booking" className="bg-ese-teal text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-ese-green hover:text-white transition-all shadow-2xl hover:scale-105 transform">
+            
+            <div className="flex flex-col sm:flex-row gap-3 justify-start">
+              <Link to="/booking" className="bg-ese-teal text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-ese-green hover:text-white transition-all shadow-2xl hover:scale-105 transform text-center">
                 Book Cleaning Now!
               </Link>
-              <Link to="/contact" className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all">
+              <Link to="/contact" className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all text-center">
                 Get a Free Quote
               </Link>
             </div>
           </motion.div>
         </div>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-          <div className="w-1 h-12 bg-gradient-to-b from-white to-transparent rounded-full opacity-60" />
+
+        {/* Integrated Greeting Banner (Positioned pinned to bottom of Hero) */}
+        <div className="relative z-20 bg-white/90 backdrop-blur-md py-3 text-center border-t border-ese-teal/20 w-full">
+          <p className="text-ese-green font-semibold text-base md:text-lg">
+            {greeting}, Glad to have you here from <span className="text-ese-teal font-bold">{location}</span>! 
+          </p>
         </div>
       </section>
 
-      {/* Greeting Banner */}
-      <div className="bg-ese-teal/10 py-4 text-center border-b border-ese-teal/20 relative z-10">
-        <p className="text-ese-green font-semibold text-lg">
-         {greeting}, visitor from <span className="text-ese-teal font-bold">{location}</span>! 
-        </p>
-      </div>
-
-      
       {/* Intro Section */}
       <section className="py-15 bg-ese-blue/35 relative z-10 b-12">
         <div className="max-w-7x2 mx-auto px-12">
@@ -277,7 +328,7 @@ export default function Home() {
               {...fadeInUp}
               className="relative"
             >
-              <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl relative">
+              <div className="aspect-[3/3.4] rounded-3xl overflow-hidden shadow-2xl relative">
                 <img
                   src={desktopImg}
                   alt="Professional Cleaner in Nigeria"
@@ -351,7 +402,7 @@ export default function Home() {
         <ScallopBottom nextColor="#ffffff" />
       </section>
 
-{/* Marquee Strip */}
+      {/* Marquee Strip */}
       <div className="bg-ese-green py-4 overflow-hidden whitespace-nowrap relative z-10">
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
@@ -361,116 +412,132 @@ export default function Home() {
           {[...Array(2)].map((_, i) => (
             <span key={i} className="inline-flex gap-12">
               <span>⭐ Professional Cleaning</span>
-              <span>✨ Lekki & Lagos</span>
-              <span>🏠 Residential Cleaning</span>
-              <span>🏢 Office Cleaning</span>
-              <span>🛁 Deep Cleaning</span>
-              <span>🛏️ Airbnb Cleaning</span>
-              <span>🌿 Eco-Friendly Products</span>
-              <span>💯 100% Satisfaction</span>
+              <span>⭐Lekki & Lagos</span>
+              <span>⭐Residential Cleaning</span>
+              <span>⭐Office Cleaning</span>
+              <span>⭐Deep Cleaning</span>
+              <span>⭐Airbnb Cleaning</span>
+              <span>⭐Eco-Friendly Products</span>
+              <span>⭐100% Satisfaction</span>
             </span>
           ))}
         </motion.div>
       </div>
 
       {/* Recent Work Gallery */}
-<section className="py-10 bg-ese-blue/20 relative z-10 pb-12">
-  <div className="max-w-7xl mx-auto px-15">
-    <div className="text-center mb-16">
-      <motion.h2
-        {...shakeAnimation}
-        className="text-4xl font-display font-bold text-ese-green mb-4 tracking-tight"
-      >
-        Recent Projects in Lagos
-      </motion.h2>
-      <p className="text-gray-500 tracking-tight">Real photos from our recent residential and commercial cleanings.</p>
-    </div>
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:max-w-3x2 md:mx-auto">
-      {[
-        { src: img1, label: 'Bulb Cleaning' },
-        { src: img2, label: 'Parlor Cleaning' },
-        { src: img3, label: 'Food Room Cleaning' },
-        { src: img4, label: 'Dining Room Cleaning' },
-        { src: kitchenImg, label: 'Kitchen Cleaning' },
-        { src: eseclean, label: 'Deep Clean' },
-      ].map((image) => (
-        <motion.div
-          key={image.label}
-          {...fadeInUp}
-          whileHover={{ scale: 1.05 }}
-          className="aspect-square rounded-2xl overflow-hidden shadow-lg bg-gray-100 border border-gray-100"
-        >
-          <img
-            src={image.src}
-            alt={`Ese Cleaning - ${image.label}`}
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
-      ))}
-    </div>
-    <div className="mt-12 text-center">
-      <a
-        href="https://www.google.com/maps/search/Ese+Cleaning+Services+LTD"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-ese-teal text-ese-teal rounded-full font-bold hover:bg-ese-teal hover:text-white transition-all shadow-md hover:shadow-xl group"
-      >
-        View All Projects <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-      </a>
-    </div>
-  </div>
-</section>
+      <section className="py-10 bg-ese-blue/20 relative z-9 pb-12">
+        <div className="max-w-7xl mx-auto px-15">
+          <div className="text-center mb-16">
+            <motion.h2
+              {...shakeAnimation}
+              className="text-4xl font-display font-bold text-ese-green mb-4 tracking-tight"
+            >
+              Recent Projects in Lagos
+            </motion.h2>
+            <p className="text-gray-500 tracking-tight">Real photos from our recent residential and commercial cleanings.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:max-w-3x2 md:mx-auto">
+            {[
+              { src: img1, label: 'Bulb Cleaning' },
+              { src: img2, label: 'Parlor Cleaning' },
+              { src: img3, label: 'Food Room Cleaning' },
+              { src: img4, label: 'Dining Room Cleaning' },
+              { src: kitchenImg, label: 'Kitchen Cleaning' },
+              { src: eseclean, label: 'Deep Clean' },
+            ].map((image) => (
+              <motion.div
+                key={image.label}
+                {...fadeInUp}
+                whileHover={{ scale: 1.05 }}
+                className="aspect-square rounded-2xl overflow-hidden shadow-lg bg-gray-100 border border-gray-100"
+              >
+                <img
+                  src={image.src}
+                  alt={`Ese Cleaning - ${image.label}`}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <a
+              href="https://www.google.com/maps/search/Ese+Cleaning+Services+LTD"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-ese-teal text-ese-teal rounded-full font-bold hover:bg-ese-teal hover:text-white transition-all shadow-md hover:shadow-xl group"
+            >
+              View All Projects <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+        </div>
+      </section>
       
       {/* Testimonials Section */}
-      
-<section className="py-10 bg-ese-green/70 overflow-hidden relative z-10">
-  <div className="max-w-7xl mx-auto px-6">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-display font-bold text-white mb-4">What Our Clients Say</h2>
-      <p className="text-teal-500">5-Star Reviews From Real Customers.</p>
-    </div>
-    <motion.div
-      className="flex gap-8 cursor-grab active:cursor-grabbing"
-      drag="x"
-      dragConstraints={{ right: 0, left: -1200 }}
-      whileTap={{ cursor: 'grabbing' }}
-      animate={{ x: ['0%', '-50%'] }}
-      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      whileHover={{ animationPlayState: 'paused' }}
-    >
-      {[...Array(2)].map((_, repeatIndex) => (
-        <div key={repeatIndex} className="flex gap-8 shrink-0">
-          {[
-            { name: 'Olawale Adenuga', role: 'Airbnb Host, Lekki', text: 'Ese Cleaning has been a lifesaver for my shortlets. They are punctual and their attention to detail is unmatched. Highly recommended!' },
-            { name: 'Chidinma Okechukwu', role: 'Busy Professional', text: 'I love coming home to a spotless house every Friday. Their staff are friendly and very professional. God bless your business!' },
-            { name: 'Tunde Bakare', role: 'Tech Founder, VI', text: 'Best office cleaning service in Lagos. They transformed our space and keep it consistently clean every week.' },
-            { name: 'Amaka Okonkwo', role: 'Homeowner, Ajah', text: 'Very thorough and professional. They cleaned every corner of my home and left it smelling fresh. Will definitely book again!' },
-            { name: 'Emeka Nwosu', role: 'Property Manager, Ikoyi', text: 'I manage 6 apartments and Ese Cleaning handles all of them. Reliable, affordable and always on time. Best decision ever!' }
-          ].map((review, i) => (
-            <div
-              key={i}
-              className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col justify-between shadow-sm shrink-0 w-[320px]"
+      <section className="py-10 bg-ese-green/70 overflow-hidden relative z-10">
+        <div className="max-w-7xl mx-auto px-6 relative">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-display font-bold text-white mb-4">What Our Clients Say</h2>
+            <p className="text-teal-500">5-Star Reviews From Real Customers.</p>
+          </div>
+
+          {/* Left Chevron Button */}
+          <button
+            onClick={() => scrollTestimonials('left')}
+            aria-label="Previous Testimonial"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-ese-green p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+          >
+            <ChevronLeft size={28} />
+          </button>
+
+          {/* Right Chevron Button */}
+          <button
+            onClick={() => scrollTestimonials('right')}
+            aria-label="Next Testimonial"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-ese-green p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+          >
+            <ChevronRight size={28} />
+          </button>
+
+          <div
+            ref={testimonialRef}
+            className="overflow-x-auto scrollbar-none flex scroll-smooth px-8"
+          >
+            <motion.div
+              className="flex gap-8 cursor-grab active:cursor-grabbing"
+              drag="x"
+              dragConstraints={{ right: 0, left: -1200 }}
+              whileTap={{ cursor: 'grabbing' }}
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+              whileHover={{ animationPlayState: 'paused' }}
             >
-              <div>
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} size={16} className="fill-[#FFD700] text-[#FFD700]" />
+              {[...Array(2)].map((_, repeatIndex) => (
+                <div key={repeatIndex} className="flex gap-8 shrink-0">
+                  {testimonials.map((review, i) => (
+                    <div
+                      key={i}
+                      className="bg-white p-8 rounded-3xl border border-gray-100 flex flex-col justify-between shadow-sm shrink-0 w-[320px]"
+                    >
+                      <div>
+                        <div className="flex gap-1 mb-4">
+                          {[1, 2, 3, 4, 5].map(s => (
+                            <Star key={s} size={16} className="fill-[#FFD700] text-[#FFD700]" />
+                          ))}
+                        </div>
+                        <p className="text-gray-700 italic mb-6 leading-relaxed text-lg">"{review.text}"</p>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-ese-green">{review.name}</h4>
+                        <p className="text-sm text-gray-500">{review.role}</p>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <p className="text-gray-700 italic mb-6 leading-relaxed text-lg">"{review.text}"</p>
-              </div>
-              <div>
-                <h4 className="font-bold text-ese-green">{review.name}</h4>
-                <p className="text-sm text-gray-500">{review.role}</p>
-              </div>
-            </div>
-          ))}
+              ))}
+            </motion.div>
+          </div>
         </div>
-      ))}
-    </motion.div>
-  </div>
-</section>
-
+      </section>
 
       {/* FAQ Section */}
       <section className="py-10 bg-ese-green/12 relative z-10 pb-12">
@@ -499,7 +566,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-10 bg-white relative z-15">
+      <section className="py-10 bg-white relative z-10">
         <div className="max-w-5xl mx-auto px-8">
           <motion.div
             {...fadeInUp}

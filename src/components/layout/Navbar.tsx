@@ -43,7 +43,7 @@ export default function Navbar() {
       <div
   className={`mx-auto flex items-center transition-all duration-500 ease-out ${
     scrolled
-      ? 'mt-3 max-w-md md:max-w-2xl px-3 py-2 rounded-full bg-gray-100 backdrop-blur-md shadow-2xl ring-1 ring-white/10 justify-between gap-4'
+      ? 'mt-3 max-w-md md:max-w-2xl px-3 py-2 rounded-full bg-gray backdrop-blur-md shadow-2xl ring-1 ring-white/10 justify-between gap-4'
       : 'mt-0 max-w-7xl px-2 py-4 rounded-none bg-transparent shadow-none ring-0 ring-transparent justify-between'
   }`}
 >
