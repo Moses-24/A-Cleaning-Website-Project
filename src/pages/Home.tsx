@@ -199,8 +199,8 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState(0);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const { greeting, location } = useGreeting();
-  const { count: count600, ref: ref600 } = useCountUp(600, 3000);
-  const { count: count5, ref: ref5 } = useCountUp(5, 5000);
+  const { count: count600, ref: ref600 } = useCountUp(600, 4000);
+  const { count: count5, ref: ref5 } = useCountUp(5, 7000);
   const testimonialRef = useRef<HTMLDivElement>(null);
 
   const scrollTestimonials = (direction: 'left' | 'right') => {
@@ -254,7 +254,7 @@ export default function Home() {
         <div className="pt-20"></div>
 
         {/* Main Content Area */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 w-full my-auto">
+        <div className="relative z-20 max-w-7x1 mx-auto px-7 w-full my-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -266,7 +266,7 @@ export default function Home() {
               className="heading-1 mb-4 leading-[1.1] tracking-tighter text-white"
             >
               Your Space, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'> Spotless. </span> <br/> 
-              Your Health, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'>Protected.</span>
+              Your Health, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'> Protected.</span>
             </motion.h1>
             
             <p className="text-xl md:text-1xl mb-5 text-gray-100 font-light leading-relaxed tracking-tight lg:tracking-normal">
@@ -287,7 +287,7 @@ export default function Home() {
         {/* Integrated Greeting Banner (Positioned pinned to bottom of Hero) */}
         <div className="relative z-20 bg-white/90 backdrop-blur-md py-3 text-center border-t border-ese-teal/20 w-full">
           <p className="text-ese-green font-semibold text-base md:text-lg">
-            {greeting}, Glad to have you here from <span className="text-ese-teal font-bold">{location}</span>! 
+            Hi {greeting}, Glad to have you here from <span className="text-ese-teal font-bold">{location}</span>! 
           </p>
         </div>
       </section>
@@ -412,13 +412,13 @@ export default function Home() {
           {[...Array(2)].map((_, i) => (
             <span key={i} className="inline-flex gap-12">
               <span>⭐ Professional Cleaning</span>
-              <span>⭐Lekki & Lagos</span>
-              <span>⭐Residential Cleaning</span>
-              <span>⭐Office Cleaning</span>
-              <span>⭐Deep Cleaning</span>
-              <span>⭐Airbnb Cleaning</span>
-              <span>⭐Eco-Friendly Products</span>
-              <span>⭐100% Satisfaction</span>
+              <span>⭐ Lekki & Lagos</span>
+              <span>⭐ Residential Cleaning</span>
+              <span>⭐ Office Cleaning</span>
+              <span>⭐ Deep Cleaning</span>
+              <span>⭐ Airbnb Cleaning</span>
+              <span>⭐ Eco-Friendly Products</span>
+              <span>⭐ 100% Satisfaction</span>
             </span>
           ))}
         </motion.div>
