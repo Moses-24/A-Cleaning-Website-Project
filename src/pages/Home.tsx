@@ -265,7 +265,7 @@ export default function Home() {
               {...shakeAnimation}
               className="heading-1 mb-4 leading-[1.1] tracking-tighter text-white"
             >
-              Your <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'>Space,</span> Spotless. <br/> 
+              Your Space, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'> Spotless. </span> <br/> 
               Your Health, <span className='text-ese-teal bg-white px-4 rounded-xl inline-block text-[0.9em]'>Protected.</span>
             </motion.h1>
             
