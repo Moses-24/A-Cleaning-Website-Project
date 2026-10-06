@@ -29,7 +29,7 @@ export default function Booking() {
           <div className="w-24 h-24 bg-ese-teal rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow-lg">
             <CheckCircle size={48} />
           </div>
-          <h1 className="text-4xl font-display font-bold text-ese-green mb-4">Booking Received!</h1>
+          <h1 className="text-4xl font-display font-bold text-ese-green mb-4"> Booking Received!</h1>
           <p className="text-xl text-gray-600 mb-8">
             Thank you for choosing Ese Cleaning. Our team will review your request and contact you via phone or WhatsApp within the next 30 minutes to confirm your appointment.
           </p>
