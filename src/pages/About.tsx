@@ -48,7 +48,7 @@ export default function About() {
           <motion.div {...fadeInUp} className="relative">
             <div className="aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl skew-y-3">
               <img 
-                src="src/images/eseaboutimg.jpg" 
+                src={kitchenclean}
                 alt="Cleaning Team" 
                 className="w-full h-full object-cover -skew-y-3 scale-110"
                 referrerPolicy="no-referrer"
